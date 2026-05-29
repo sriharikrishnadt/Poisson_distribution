@@ -30,11 +30,61 @@ The Poisson distribution is the discrete probability distribution of the number 
 
 # Program :
 
- 
+ ```python
+
+import numpy as np
+import math
+from scipy.stats import chi2
+
+# Number of arrivals (x)
+x = np.array([0, 1, 2, 3, 4, 5])
+
+# Observed frequencies
+fo = np.array([8, 15, 20, 12, 4, 1])
+
+# Total frequency
+N = np.sum(fo)
+
+# Mean of the distribution (λ)
+mean = np.sum(x * fo) / N
+
+print("Mean (λ) =", round(mean, 4))
+
+# Expected frequencies using Poisson distribution
+fe = []
+
+for i in x:
+    p = (math.exp(-mean) * (mean ** i)) / math.factorial(i)
+    fe.append(N * p)
+
+fe = np.array(fe)
+
+print("\nObserved Frequencies :", fo)
+print("Expected Frequencies :", np.round(fe, 2))
+
+# Chi-Square Test
+chi_square = np.sum(((fo - fe) ** 2) / fe)
+
+print("\nCalculated Chi-Square Value =", round(chi_square, 4))
+
+# Degree of freedom
+df = len(x) - 2
+
+# Table value at 5% level of significance
+table_value = chi2.ppf(0.95, df)
+
+print("Table Chi-Square Value =", round(table_value, 4))
+
+# Result
+if chi_square < table_value:
+    print("\nResult : Poisson distribution is fitted for the given data.")
+else:
+    print("\nResult : Poisson distribution is NOT fitted for the given data.")
+ ```
 
 # Output : 
 
-
+<img width="719" height="212" alt="image" src="https://github.com/user-attachments/assets/48dce422-9cec-4290-b01f-ed9ad4332d62" />
 
 # Results
 
